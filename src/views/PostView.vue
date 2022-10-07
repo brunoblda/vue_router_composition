@@ -7,27 +7,26 @@
 </template>
 
 <script lang="ts">
-import { computed } from '@vue/reactivity';
 import { defineComponent } from 'vue'
-import { useRoute } from 'vue-router';
-import { usePosts } from '@/composable/usePosts';
+import  IPost from '@/interfaces/IPost'
+import { PropType } from 'vue'
+
 
 export default defineComponent({
     name: "PostView",
-    setup(){
-        const route = useRoute()
-        const postStore = usePosts()
+    props: {
+        posts:{
+            type: [Object] ,
+            default: ()=>{[]}
+        }
+    },
+    computed: {
+        post(){
 
-        const post: any = computed(() => 
-        postStore.posts.value.find(x  => x.id.toString() === 
-        route.params.id))
-        console.log(route)
-
-        return{
-            post
+        return this.posts.find((x: IPost) => x.id.toString() ===
+         this.$route.params.id)
         }
     }
-
     
         
 

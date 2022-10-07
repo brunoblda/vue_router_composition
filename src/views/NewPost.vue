@@ -22,44 +22,25 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { reactive } from 'vue';
-import { usePosts } from '@/composable/usePosts';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: "NewPost",
-    setup(){
-
-        const postStore = usePosts()
-
-        const router = useRouter()
-
-        console.log(router)
-        
-        const newPost = reactive({
-            title: '',
-            content: ''
-
-        })
-
-        const submit = () => {
-            const idV = postStore.posts.value.length + 1
-            postStore.addPost({
-                id: idV,
-                title: newPost.title,
-                content: newPost.content,
-                likes: 0,
-                hashtags: []
+    data(){
+        return{
+            newPost: {
+                title: '',
+                content: ''
+            }
+        }
+    },
+    methods: {
+        submit(){
+            this.$emit('CreatePost', {
+                title: this.newPost.title,
+                content: this.newPost.content
             })
 
-            router.push(`/posts/${idV}`)
-
         }
-
-        return {
-            newPost,
-            submit
-        }
-    }
+    },
 })
 </script>
