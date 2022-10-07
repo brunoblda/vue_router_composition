@@ -14,13 +14,10 @@
             </router-link>
         </li>
     </ul>
-    <router-view 
-    :posts="posts"
-    @createPost="createPost"
-    ></router-view>
+    <router-view></router-view>
 </template>
 
-<script lang="ts"> 
+<script lang="ts">
 import { usePosts } from '@/composable/usePosts'
 
 import { defineComponent } from 'vue'
@@ -28,25 +25,14 @@ import {testPosts } from '@/composable/testPosts'
 
 export default defineComponent({
     name: "PostsView",
-    data(){
-        return {
-            posts: testPosts
-        }
-    },
-    methods: {
-        createPost(newPost: any){
-            const idV = this.posts.length + 1
-            this.posts.push({
-                id: idV ,
-                title: newPost.title,
-                content: newPost.content,
-                likes: 0,
-                hashtags: []
-            })
+    setup(){
 
-            this.$router.push(`/posts/${idV}`)
+        const postStore = usePosts()
+        return{
+            posts: postStore.posts
         }
     }
+        
     
 })
 </script>
